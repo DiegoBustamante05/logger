@@ -3,6 +3,7 @@ import CustomError from "../services/errors/custom-error.js";
 import EErrors from "../services/errors/enums.js";
 import { generateProductErrorInfo } from "../services/errors/info.js";
 import { generateUpdateProductErrorInfo } from "../services/errors/info.js";
+import { logger } from "../utils.js";
 const Service = new ProductService();
 
 class ProductsController {
@@ -103,6 +104,7 @@ class ProductsController {
                 msg: "Product deleted",
             })
         } catch (error) {
+            logger.error("prueba");
             next(error);
         }
     }

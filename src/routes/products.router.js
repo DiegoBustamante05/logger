@@ -17,7 +17,7 @@ routerProducts.get("/", productsController.getAll);
 
 routerProducts.get("/:pid", productsController.getById);
 
-routerProducts.post("/", /*checkAdmin,*/ productsController.add);
+routerProducts.post("/", checkAdmin, productsController.add);
 
 routerProducts.put("/:pid", checkAdmin, productsController.update);
 

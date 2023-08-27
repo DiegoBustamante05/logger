@@ -5,6 +5,9 @@ export const __dirname = path.dirname(__filename);
 import CustomError from "./services/errors/custom-error.js";
 import EErrors from "./services/errors/enums.js";
 import multer from "multer";
+import winston from "winston";
+
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -70,3 +73,26 @@ export function generateMockProducts(count) {
 enviroment.PORT = process.env.PORT;
 enviroment.MONGO_URL = process.env.MONGO_URL
 
+
+
+
+export const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console({
+      level: process.argv[2] === 'PROD' ? 'info' : 'debug',
+      format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+        winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`)
+      ), 
+    }),
+    new winston.transports.File({
+      filename: "./errors.log",
+      level: process.argv[2] === 'PROD' ? 'error' : " ",
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+        winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`)
+      ),
+    }),
+  ],
+});

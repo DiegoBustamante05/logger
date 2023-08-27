@@ -16,6 +16,7 @@ import passport from 'passport';
 import { enviroment } from "./utils.js";
 import { generateMockProducts } from "./utils.js";
 import errorHandler from "./middlewares/error.js";
+import { logger } from "./utils.js";
 
 const app = express();
 const port = enviroment.PORT;
@@ -68,10 +69,19 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/", routerViews)
 
-app.get('/mockingproducts', (req, res) => {
+app.get("/mockingproducts", (req, res) => {
     const products = generateMockProducts(100);
     res.json(products);
 });
+
+app.get("/loggerTest", (req, res) => {
+    logger.debug("this is a debug level log")
+    logger.verbose("this is a debug level verbose")
+    logger.http("this is a debug level http")
+    logger.info("this is a debug level info")
+    logger.warn("this is a debug level warn")
+    logger.error("this is a debug level error")
+})
 
 app.get("*", (req, res) => {
     res.status(404).send({
@@ -79,6 +89,7 @@ app.get("*", (req, res) => {
         data: "Page not found",
     });
 });
+
 
 app.use(errorHandler);
 
