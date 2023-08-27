@@ -19,6 +19,6 @@ routerProducts.get("/:pid", productsController.getById);
 
 routerProducts.post("/", checkAdmin, productsController.add);
 
-routerProducts.put("/:pid", checkAdmin, productsController.update);
+routerProducts.put("/:pid", /*checkAdmin,*/ productsController.update);
 
 routerProducts.delete("/:pid", checkAdmin, productsController.delete);

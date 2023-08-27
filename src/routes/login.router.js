@@ -86,7 +86,7 @@ routerLogin.get('/current', async (req, res) => {
         return res.json({ error: "invalid credentials" });
     }
     const user = new UserDto(req.user)
-    console.log(user)
+    logger.info(user)
     return res.json(user);
 });
 

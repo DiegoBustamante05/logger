@@ -9,6 +9,7 @@ import {
 } from '../DAO/mongo/models/ticket.model.js';
 import nodemailer from "nodemailer";
 import generateTicketCode from './ticket.service.js';
+import { logger } from '../utils.js';
 
 const productsService = new ProductService();
 
@@ -39,7 +40,7 @@ export class CartService {
                 throw new Error("Product not found");
             }
 
-            console.log(productToAdd._id);
+            logger.info(productToAdd._id);
 
             let cart = await CartModel.findOneAndUpdate({
                 _id: cId,
@@ -191,7 +192,7 @@ export class CartService {
                     if (error) {
                         console.error(error);
                     } else {
-                        console.log('Email sent: ' + info.response);
+                        logger.info('Email sent: ' + info.response);
                     }
                 });
 

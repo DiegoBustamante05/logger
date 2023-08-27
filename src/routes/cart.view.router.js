@@ -1,6 +1,7 @@
 import express from "express";
 import { CartModel } from "../DAO/mongo/models/carts.model.js";
 import { CartService } from "../services/carts.service.js";
+import { logger } from "../utils.js";
 
 const cartService = new CartService();
 
@@ -10,7 +11,7 @@ export const routerViewCart = express.Router();
 routerViewCart.get("/:cid", async (req, res) => {
     const cid = req.params.cid 
     const cart = await cartService.getCartById(cid)
-    console.log(cart)
+    logger.info(cart)
     const products = cart.products.map((product) => {
         return{
         title: product.product.title,

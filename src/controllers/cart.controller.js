@@ -2,6 +2,7 @@ import {
     CartService
 } from "../services/carts.service.js";
 import EErrors from "../services/errors/enums.js";
+import { logger } from "../utils.js";
 const Service = new CartService();
 
 class CartsController {
@@ -50,7 +51,7 @@ class CartsController {
     async clearCart(req, res, next) {
         try {
             const cid = req.params.cid;
-            console.log(cid)
+            logger.info(cid)
             const clear = await Service.clearCart(cid);
             res.status(200).json({
                 status: 'success',
@@ -95,7 +96,7 @@ class CartsController {
         try {
             const cid = req.params.cid;
             const products = req.body;
-            console.log(products)
+            logger.info(products)
             await Service.updateCart(cid, products);
             res.status(200).json({
                 status: 'success',

@@ -24,14 +24,16 @@ import { connect } from "mongoose";
 export async function connectMongo() {
   try {
     await connect(enviroment.MONGO_URL);
-    console.log("plug to mongo!");
+    logger.info("plug to mongo!");
   } catch (e) {
     CustomError.createError({
       name: "ERROR DATABASE",
       cause: "The database you are trying to access does not exist, please check if the link is correct.",
       message: "error connecting to database",
       code: EErrors.INVALID_TYPES_ERROR,
-  });
+  },
+  logger.error("error connecting to database")
+  );
   }
 }
 
@@ -45,7 +47,7 @@ export const enviroment = {mode: process.argv[2]}
 import dotenv from 'dotenv';
 
 if(process.argv[2] !='DEV' && process.argv[2] !='PROD') {
-  console.log("argument must be PROD or DEV");
+  logger.info("argument must be PROD or DEV");
   process.exit();
 }
 dotenv.config({

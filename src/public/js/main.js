@@ -1,3 +1,4 @@
+import { logger } from "../../utils.js";
 
 const inputTitle = document.getElementById("title");
 const inputDecription = document.getElementById("description");
@@ -58,7 +59,7 @@ document.getElementById("delete-product").addEventListener("submit", async funct
             method: "DELETE",
         });
     } catch (error) {
-        console.log("Error: ", error);
+        logger.info("Error: ", error);
     }
 });
 
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const id = inputIdUpdate.value
 
-        console.log(id, inputCategoryUpdate, inputCodeUpdate, inputTitleUpdate.value, inputDecriptionUpdate.value, inputStockUpdate.value,inputStatusUpdate.value )
+        logger.info(id, inputCategoryUpdate, inputCodeUpdate, inputTitleUpdate.value, inputDecriptionUpdate.value, inputStockUpdate.value,inputStatusUpdate.value )
 
         const newProduct = {
             title: inputTitleUpdate.value,

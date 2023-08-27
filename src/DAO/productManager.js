@@ -1,5 +1,6 @@
 import { error } from 'console';
 import fs from 'fs';
+import { logger } from '../utils.js';
 
 
 export class ProductManager {
@@ -14,7 +15,7 @@ export class ProductManager {
     async getProducts(){
         const productsBeta =  await fs.promises.readFile(this.path, "utf-8");
         this.products = JSON.parse(productsBeta);
-        console.log(this.products);
+        logger.info(this.products);
         return this.products;
     }
     async getProductById(id){
@@ -22,7 +23,7 @@ export class ProductManager {
         this.products = JSON.parse(productsById);
         const found = this.products.find(prod => prod.id == id);
         if(found){
-            console.log(found)
+            logger.info(found)
             return found;
         } else {
             throw new Error("Not found")
@@ -58,7 +59,7 @@ export class ProductManager {
         }else if (typeof price != "number" || typeof stock != "number" ){         
             throw new Error("price and stock must be a number")
         //}else if (typeof status != "boolean"){         
-            //console.log("status must be a boolean")
+            //logger.info("status must be a boolean")
             //return false;
         }else if(await this.#getProductByCode(code)){
             throw new Error("The code entered has already been used, please enter another") 
@@ -67,7 +68,7 @@ export class ProductManager {
             this.products.push(newProduct)
             const productsString = JSON.stringify(this.products)
             await fs.promises.writeFile(this.path, productsString)
-            console.log(newProduct)
+            logger.info(newProduct)
         }
     }
     
@@ -118,8 +119,8 @@ export class ProductManager {
             this.products[id] = Object.assign(found, {title, description, price, thumbnail, code, stock, category, status})
             const productsString = JSON.stringify(this.products)
             await fs.promises.writeFile(this.path, productsString)
-            console.log("Updated product!")
-            console.log(this.products)
+            logger.info("Updated product!")
+            logger.info(this.products)
             return(this.products)
             }
         } else {

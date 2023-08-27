@@ -28,7 +28,7 @@ connectMongo();
 const productManager = new ProductManager();
 
 const httpServer = app.listen(port, () => {
-    console.log(`Server running on port http://localhost:${port}`);
+    logger.info(`Server running on port http://localhost:${port}`);
 });
 const socketServer = new Server(httpServer)
 
@@ -94,24 +94,24 @@ app.get("*", (req, res) => {
 app.use(errorHandler);
 
 socketServer.on("connection", (socket) =>{
-    console.log(`New Connection: ${socket.id}`);
+    logger.info(`New Connection: ${socket.id}`);
     socket.on("new-product", async (newProduct) => {
         try {
             await productManager.addProduct(newProduct);
             const productsList = await productManager.getProducts();
             socketServer.emit("products", { productsList });
         } catch (error){
-            console.log(error);
+            logger.info(error);
         }
     });
     socket.on("id-to-delete", async (id) => {
         try {
-            console.log("el id es " + id)
+            logger.info("el id es " + id)
             await productManager.deleteProduct(id);
             const productsListDeleted = await productManager.getProducts();
             socketServer.emit("products-deleted", { productsListDeleted });
         } catch (error){
-            console.log(error);
+            logger.info(error);
         }
     });
 });

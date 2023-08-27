@@ -78,7 +78,7 @@ class ProductsController {
         try {
             const id = req.params.pid;
             await Service.updateOne(id, newProduct);
-            console.log("Product " + id + " was modified")
+            logger.info("Product " + id + " was modified")
             return res.status(201).json({
                 status: "success",
                 msg: "successfully modified product",
@@ -98,13 +98,12 @@ class ProductsController {
         try {
             const idToDelete = req.params.pid;
             await Service.deleteProduct(idToDelete);
-            console.log("Product " + idToDelete + " deleted")
+            logger.info("Product " + idToDelete + " deleted")
             return res.status(200).send({
                 status: "success",
                 msg: "Product deleted",
             })
         } catch (error) {
-            logger.error("prueba");
             next(error);
         }
     }

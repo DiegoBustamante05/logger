@@ -1,5 +1,6 @@
 import EErrors from "../services/errors/enums.js";
 import CustomError from "../services/errors/custom-error.js";
+import { logger } from "../utils.js";
 export function checkUser(req, res, next) {
     if (req.user != undefined && req.user.email ) {
         return next();
@@ -12,13 +13,16 @@ export function checkUser(req, res, next) {
 export function checkAdmin(req, res, next) {
     if (req.user != undefined && req.user.role === 'admin')  {
         return next();
-    }
+    } else {
     CustomError.createError({
         name: "Authentication Error",
         cause: "the user does not have permission to access this site.",
         message: "please login as administrator",
         code: EErrors.AUTH_ERROR,
-    });
+        },
+        logger.error("AUTH_ERROR")
+        );
+    }       
 }
 
 export function checkUserLoggedIn(req, res, next) {
@@ -39,9 +43,10 @@ export function checkUserRole(req, res, next) {
             cause: "You don't have permission to access the chat",
             message: "please login as user",
             code: EErrors.AUTH_ERROR,
-        });
+        },
+        logger.error("AUTH_ERROR")
+        );
     }
-
 }
 
 export const checkCartOwner = (req, res, next) => {
